@@ -1,7 +1,7 @@
 import React from "react";
+import "./components.css";
 
 const Note = ({ note, isLastNote }) => {
-  // Convert date string to readable format
   const formatDate = (isoDate) => {
     const date = new Date(isoDate);
     return date.toLocaleDateString("en-GB", {
@@ -15,24 +15,18 @@ const Note = ({ note, isLastNote }) => {
   return (
     <a
       href={`/notes/${note.id}`}
-      className={`block space-y-3 p-2 ${
-        !isLastNote ? "border-b border-solid border-[--neutral-200]" : ""
-      }`}
+      className={`note ${!isLastNote ? "note--with-border" : ""}`}
     >
-      <p className="text-preset-3">{note.title}</p>
-      <div className="flex flex-wrap gap-1">
+      <p className="note__title">{note.title}</p>
+      <div className="note__tags">
         {note.tags?.map((tag, index) => (
-          <span
-            key={index}
-            className="text-preset-6 rounded bg-neutral-200 px-[6px] py-[2px] text-neutral-950"
-          >
+          <span key={index} className="note__tag">
             {tag}
           </span>
         ))}
       </div>
-      <p className="text-preset-6 text-neutral-700 dark:text-neutral-300">
-        {formatDate(note.created_at)}
-      </p>
+
+      <p className="note__date">{formatDate(note.created_at)}</p>
     </a>
   );
 };
