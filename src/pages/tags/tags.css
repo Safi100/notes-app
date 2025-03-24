@@ -1,0 +1,20 @@
+.tags_div {
+  padding: 0 1rem;
+  margin-top: 0.5rem;
+  line-height: 120%;
+  letter-spacing: -0.2px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.tags_div p {
+  margin-bottom: 0.5rem;
+}
+.tags_div li {
+  padding: 0.75rem;
+}
+.tags_div li a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--neutral-700);
+}
