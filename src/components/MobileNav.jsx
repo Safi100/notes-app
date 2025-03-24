@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
+import "./components.css";
 
-export const MobileNav = () => {
+const MobileNav = () => {
   const { pathname } = useLocation();
 
   const items = [
@@ -38,7 +39,7 @@ export const MobileNav = () => {
           />
         </svg>
       ),
-      // active: pathname === "/" || /^\/notes\/\d+$/.test(pathname),
+      active: pathname === "/" || /^\/notes\/[a-zA-Z0-9-]+$/.test(pathname),
     },
     {
       name: "Search",
@@ -102,7 +103,7 @@ export const MobileNav = () => {
     },
     {
       name: "Tags",
-      href: "/?tags=true",
+      href: "/tags",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -131,7 +132,7 @@ export const MobileNav = () => {
           />
         </svg>
       ),
-      // active: pathname.includes("tags=true"),
+      active: pathname.includes("/tags"),
     },
     {
       name: "Settings",
@@ -158,21 +159,19 @@ export const MobileNav = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 w-full border-t border-neutral-200 bg-neutral-0 px-4 py-3 shadow-top lg:hidden dark:border-neutral-700 dark:bg-neutral-950 dark:shadow-none">
-      <ul className="grid grid-cols-5">
+    <nav className="mobile_nav">
+      <ul className="grid">
         {items.map((item) => {
           return (
             <li key={item.name}>
               <Link
                 to={item.href}
-                className={`flex justify-center py-1 md:flex-col md:items-center ${
-                  item.active ? "bg-blue-50 dark:bg-neutral-700" : ""
+                className={`mobile_nav__link ${
+                  item.active ? "mobile_nav__link--active" : ""
                 }`}
               >
                 {item.icon}
-                <span className="text-preset-6 hidden text-neutral-500 md:block dark:text-white">
-                  {item.name}
-                </span>
+                <span className="mobile_nav__text">{item.name}</span>
               </Link>
             </li>
           );
@@ -181,3 +180,5 @@ export const MobileNav = () => {
     </nav>
   );
 };
+
+export default MobileNav;
