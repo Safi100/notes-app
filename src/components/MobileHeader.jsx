@@ -1,8 +1,9 @@
 import React from "react";
+import "./components.css";
 
 const MobileHeader = () => {
   return (
-    <header className="bg-neutral-100 px-4 py-3 md:px-8 md:py-6 lg:hidden dark:bg-neutral-800">
+    <header className="mobile_header">
       <a href="/">
         <svg
           xmlns="http://www.w3.org/2000/svg"
