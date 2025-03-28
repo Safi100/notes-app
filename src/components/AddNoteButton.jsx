@@ -1,7 +1,7 @@
 import React from "react";
 import "./components.css";
 
-const AddNoteButtonMobile = () => {
+const AddNoteButton = () => {
   return (
     <a href="/note/new" className="add_note_btn">
       <span>+ Create New Note</span>
@@ -20,4 +20,4 @@ const AddNoteButtonMobile = () => {
   );
 };
 
-export default AddNoteButtonMobile;
+export default AddNoteButton;
