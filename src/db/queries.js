@@ -6,6 +6,20 @@ export const fetchAllNotes = async (currentUserID) => {
     .from("notes")
     .select("*")
     .eq("user_id", currentUserID)
+    .eq("isArchived", false)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Fetch error:", error);
+  }
+  return data;
+};
+export const fetchAllArchivedNotes = async (currentUserID) => {
+  const { data, error } = await supabase
+    .from("notes")
+    .select("*")
+    .eq("user_id", currentUserID)
+    .eq("isArchived", true)
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -18,6 +32,7 @@ export const getAllTags = async (currentUserID) => {
   const { data, error } = await supabase
     .from("notes")
     .select("tags")
+    .eq("isArchived", false)
     .eq("user_id", currentUserID);
 
   if (error) {
