@@ -1,0 +1,29 @@
+.home {
+  position: relative;
+  height: 100%;
+}
+
+.home__sidebar {
+  height: 100%;
+  padding-top: 1.25rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-right: 1px solid var(--neutral-200);
+  width: 100%;
+}
+@media (min-width: 1024px) {
+  .home__sidebar {
+    width: 290px;
+  }
+}
+@media (min-width: 768px) {
+  .home__sidebar {
+    padding-left: 2rem; /* md:px-8 = 32px */
+    padding-right: 2rem;
+  }
+}
+
+.home__notes {
+  display: flex;
+  flex-direction: column;
+}
