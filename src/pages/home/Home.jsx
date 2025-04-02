@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { fetchAllNotes } from "../../db/queries";
-import AddNoteButtonMobile from "../../components/AddNoteButton";
-import Note from "../../components/Note";
 import "./home.css"; // 👈 include your styles
-import NotesBar from "../../components/notesBar";
+import NotesBar from "../../components/NotesBar";
+import HeaderBar from "../../components/HeaderBar";
 
 const Home = ({ user }) => {
   const [notes, setNotes] = useState([]);
@@ -18,11 +17,7 @@ const Home = ({ user }) => {
     getNotes();
   }, [user]);
 
-  return (
-    <div className="home">
-      <NotesBar notes={notes} />
-    </div>
-  );
+  return <NotesBar notes={notes} />;
 };
 
 export default Home;
