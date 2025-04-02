@@ -6,55 +6,108 @@ import SignIn from "./pages/auth/Signin";
 import SignUp from "./pages/auth/Signup";
 import Home from "./pages/home/Home";
 import Tags from "./pages/tags/Tags";
+import ArchivedNotes from "./pages/archived_notes/ArchivedNotes";
+import Settings from "./pages/settings/Settings";
+import ColorTheme from "./pages/settings/ColorTheme";
+import FontTheme from "./pages/settings/FontTheme";
 
 import MobileNav from "./components/MobileNav";
 import MobileHeader from "./components/MobileHeader";
 import SideBar from "./components/SideBar";
+import HeaderBar from "./components/HeaderBar";
 import { getAllTags } from "./db/queries";
+
+// Layout component for pages with Sidebar
+function LayoutWithSidebar({ children, tags }) {
+  return (
+    <div className="app-layout">
+      <SideBar tags={tags} />
+      <div className="page_content">{children}</div>
+      <MobileNav />
+    </div>
+  );
+}
 
 function App() {
   const { user } = useUser();
   const [tags, setTags] = useState([]);
-  // hide nav on /sign-in and /sign-up
-  const hideNav =
-    location.pathname.startsWith("/sign-in") ||
-    location.pathname.startsWith("/sign-up");
 
   useEffect(() => {
     const fetchTags = async () => {
-      const tags = await getAllTags(user.id);
-      setTags(tags);
+      if (user) {
+        const tags = await getAllTags(user.id);
+        setTags(tags);
+      }
     };
     fetchTags();
   }, [user]);
 
   return (
-    <div>
+    <>
       <SignedIn>
         <MobileHeader />
-        <SideBar tags={tags} />
-        <MobileNav />
       </SignedIn>
-      {/* )} */}
       <Routes>
         <Route
           path="/"
           element={
-            <>
-              <SignedIn>
+            <SignedIn>
+              <LayoutWithSidebar tags={tags}>
+                <HeaderBar />
                 <Home user={user} />
-              </SignedIn>
-              <SignedOut>
-                <Navigate to="/sign-in" replace />
-              </SignedOut>
-            </>
+              </LayoutWithSidebar>
+            </SignedIn>
           }
         />
+        <Route
+          path="/archives"
+          element={
+            <SignedIn>
+              <LayoutWithSidebar tags={tags}>
+                <HeaderBar />
+                <ArchivedNotes user={user} />
+              </LayoutWithSidebar>
+            </SignedIn>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <SignedIn>
+              <LayoutWithSidebar tags={tags}>
+                <HeaderBar />
+                <Settings user={user} />
+              </LayoutWithSidebar>
+            </SignedIn>
+          }
+        />
+        <Route
+          path="/settings/color-theme"
+          element={
+            <SignedIn>
+              <LayoutWithSidebar tags={tags}>
+                <HeaderBar />
+                <ColorTheme user={user} />
+              </LayoutWithSidebar>
+            </SignedIn>
+          }
+        />
+        <Route
+          path="/settings/font-theme"
+          element={
+            <SignedIn>
+              <LayoutWithSidebar tags={tags}>
+                <HeaderBar />
+                <FontTheme user={user} />
+              </LayoutWithSidebar>
+            </SignedIn>
+          }
+        />
+        <Route path="/tags" element={<Tags user={user} />} />
         <Route path="/sign-in/*" element={<SignIn />} />
         <Route path="/sign-up/*" element={<SignUp />} />
-        <Route path="/tags" element={<Tags user={user} />} />
       </Routes>
-    </div>
+    </>
   );
 }
 
