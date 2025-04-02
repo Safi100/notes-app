@@ -1,0 +1,19 @@
+.settings_app {
+  display: flex;
+  height: 100%;
+  display: grid;
+}
+.settings_app .settings_content {
+  width: 100%;
+  padding: 1.5rem 1rem;
+  display: flex;
+}
+@media (min-width: 1024px) {
+  .settings_app {
+    grid-template-columns: auto 1fr;
+  }
+  .settings_app .settings_content {
+    padding: 2rem;
+    flex-direction: column;
+  }
+}
