@@ -3,6 +3,7 @@ import { fetchAllNotes } from "../../db/queries";
 import AddNoteButtonMobile from "../../components/AddNoteButton";
 import Note from "../../components/Note";
 import "./home.css"; // 👈 include your styles
+import NotesBar from "../../components/notesBar";
 
 const Home = ({ user }) => {
   const [notes, setNotes] = useState([]);
@@ -19,18 +20,7 @@ const Home = ({ user }) => {
 
   return (
     <div className="home">
-      <div className="home__sidebar">
-        <AddNoteButtonMobile />
-        <div className="home__notes">
-          {notes.map((note, index) => (
-            <Note
-              key={note.id}
-              note={note}
-              isLastNote={index === notes.length - 1}
-            />
-          ))}
-        </div>
-      </div>
+      <NotesBar notes={notes} />
     </div>
   );
 };

@@ -164,7 +164,7 @@
 /* side bar */
 .sidebar {
   border-right: 1px solid var(--neutral-200);
-  display: flex;
+  display: none;
   width: 16rem;
   flex-direction: column;
   height: 100vh;
@@ -246,4 +246,43 @@
 }
 .sidebar_active {
   background: var(--neutral-100);
+}
+@media (min-width: 1024px) {
+  .sidebar {
+    display: flex;
+  }
+}
+/* notes bar */
+.notes_bar {
+  height: 100%;
+  padding-top: 1.25rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-right: 1px solid var(--neutral-200);
+  width: 100%;
+}
+.notes_bar .no_notes {
+  color: var(--neutral-950);
+  padding: 0.5rem;
+  background: var(--neutral-200);
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: -0.2px;
+}
+@media (min-width: 1024px) {
+  .notes_bar {
+    width: 290px;
+  }
+}
+@media (min-width: 768px) {
+  .notes_bar {
+    padding-left: 2rem; /* md:px-8 = 32px */
+    padding-right: 2rem;
+  }
+}
+.notes {
+  display: flex;
+  flex-direction: column;
 }
