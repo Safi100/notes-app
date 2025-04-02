@@ -45,6 +45,7 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-width: 300px;
 
     --neutral-950: #0e121b;
     --neutral-900: #191b25;
@@ -118,4 +119,17 @@
 
 body {
   min-height: 100vh;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.app-layout {
+  width: 100%;
+  display: flex;
+}
+.app-layout .page_content {
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
 }
