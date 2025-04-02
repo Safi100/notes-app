@@ -9,10 +9,7 @@ const SideBar = ({ tags }) => {
   const link_tag = queryParams.get("tag");
 
   return (
-    <div
-      className="sidebar flex h-full w-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow"
-      bis_skin_checked="1"
-    >
+    <div className="sidebar">
       <div className="header">
         <a href="/">
           <svg
