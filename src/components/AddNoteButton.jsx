@@ -3,7 +3,7 @@ import "./components.css";
 
 const AddNoteButton = () => {
   return (
-    <a href="/note/new" className="add_note_btn">
+    <a href="/note/create" className="add_note_btn">
       <span>+ Create New Note</span>
       <div className="plus">
         <img
