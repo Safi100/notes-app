@@ -7,6 +7,7 @@ import SignUp from "./pages/auth/Signup";
 import Home from "./pages/home/Home";
 import Tags from "./pages/tags/Tags";
 import ArchivedNotes from "./pages/archived_notes/ArchivedNotes";
+import Search from "./pages/search/Search";
 import Settings from "./pages/settings/Settings";
 import ColorTheme from "./pages/settings/ColorTheme";
 import FontTheme from "./pages/settings/FontTheme";
@@ -23,7 +24,6 @@ function LayoutWithSidebar({ children, tags }) {
     <div className="app-layout">
       <SideBar tags={tags} />
       <div className="page_content">{children}</div>
-      <MobileNav />
     </div>
   );
 }
@@ -46,6 +46,7 @@ function App() {
     <>
       <SignedIn>
         <MobileHeader />
+        <MobileNav />
       </SignedIn>
       <Routes>
         <Route
@@ -104,6 +105,7 @@ function App() {
           }
         />
         <Route path="/tags" element={<Tags user={user} />} />
+        <Route path="/search" element={<Search user={user} />} />
         <Route path="/sign-in/*" element={<SignIn />} />
         <Route path="/sign-up/*" element={<SignUp />} />
       </Routes>
