@@ -1,11 +1,25 @@
 import { useState, useEffect } from "react";
-import { fetchAllNotes } from "../../db/queries";
-import "./home.css"; // 👈 include your styles
+import { useSearchParams } from "react-router-dom";
+import { fetchAllNotes, searchNotes } from "../../db/queries";
 import NotesBar from "../../components/NotesBar";
-import HeaderBar from "../../components/HeaderBar";
+import "./home.css";
 
 const Home = ({ user }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [notes, setNotes] = useState([]);
+
+  const query = searchParams.get("q") || "";
+
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchNotes = async () => {
+      const results = await searchNotes(user.id, query);
+      setNotes(results);
+    };
+
+    fetchNotes();
+  }, [query, user]);
 
   useEffect(() => {
     const getNotes = async () => {
