@@ -1,0 +1,28 @@
+.search-container {
+  grid-template-rows: auto 1fr;
+  display: grid;
+  padding: 1.25rem 1rem;
+}
+.search-container .search_div {
+  display: block;
+  margin-bottom: 40px;
+}
+.search-container .search_div p {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 120%;
+  letter-spacing: -0.5px;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .search-container {
+    padding: 1.5rem 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .search-container {
+    display: none;
+  }
+}
