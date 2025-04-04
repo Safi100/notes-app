@@ -1,13 +1,19 @@
 import React from "react";
 import AddNoteButtonMobile from "./AddNoteButton";
+import { useLocation } from "react-router-dom";
 import Note from "./Note";
 
 const NotesBar = ({ notes = [] }) => {
+  const location = useLocation();
+
+  // Check if the current URL is '/archived'
+  const isArchivedPage = location.pathname === "/archives";
+
   return (
     <div className="notes_bar">
       <AddNoteButtonMobile />
       <div className="notes">
-        {notes?.length === 0 && (
+        {!isArchivedPage && notes?.length === 0 && (
           <p className="no_notes">
             You don't have any notes yet. Start a new note to capture your
             thoughts and ideas.
