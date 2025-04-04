@@ -1,5 +1,4 @@
 import { supabase } from "./supabaseClient";
-import { useEffect } from "react";
 
 export const fetchAllNotes = async (currentUserID) => {
   const { data, error } = await supabase
@@ -36,6 +35,55 @@ export const searchNotes = async (currentUserID, searchQuery = "") => {
 
   return data;
 };
+
+export const addNote = async (note, user) => {
+  const { data, error } = await supabase
+    .from("notes")
+    .insert([
+      {
+        user_id: user.id,
+        title: note.title,
+        content: note.content,
+        tags: note.tags,
+        created_at: new Date().toISOString(),
+        updatedat: new Date().toISOString(),
+        isArchived: false,
+      },
+    ])
+    .select();
+
+  console.log("Insert result:", { data, error });
+
+  if (error) {
+    console.error(error);
+  } else {
+    return data[0];
+  }
+};
+
+export const searchArchivedNotes = async (currentUserID, searchQuery = "") => {
+  let query = supabase
+    .from("notes")
+    .select("*")
+    .eq("user_id", currentUserID)
+    .eq("isArchived", true)
+    .order("created_at", { ascending: false });
+
+  if (searchQuery.trim()) {
+    query = query.or(
+      `title.ilike.%${searchQuery}%,content.ilike.%${searchQuery}%,tags.ilike.%${searchQuery}%`
+    );
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error("Fetch error:", error);
+  }
+
+  return data;
+};
+
 export const fetchAllArchivedNotes = async (currentUserID) => {
   const { data, error } = await supabase
     .from("notes")
@@ -63,30 +111,10 @@ export const getAllTags = async (currentUserID) => {
   }
 
   const allTags = data
-    .filter((row) => Array.isArray(row.tags)) // only include rows with array tags
-    .flatMap((row) => row.tags); // flatten arrays
+    .filter((row) => row.tags)
+    .flatMap((row) => row.tags.split(",").map((tag) => tag.trim()));
 
-  const uniqueTags = [...new Set(allTags)]; // remove duplicates
+  const uniqueTags = [...new Set(allTags)];
 
   return uniqueTags;
 };
-
-async function addNote() {
-  if (note.trim() === "") return;
-
-  const { data, error } = await supabase
-    .from("notes")
-    .insert([
-      {
-        user_id: user.id,
-        content: note,
-      },
-    ])
-    .select();
-  console.log("Insert result:", { data, error });
-  if (error) console.error(error);
-  else {
-    setNotes([data[0], ...notes]);
-    setNote("");
-  }
-}
