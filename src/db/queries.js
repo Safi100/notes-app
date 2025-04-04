@@ -14,6 +14,28 @@ export const fetchAllNotes = async (currentUserID) => {
   }
   return data;
 };
+export const searchNotes = async (currentUserID, searchQuery = "") => {
+  let query = supabase
+    .from("notes")
+    .select("*")
+    .eq("user_id", currentUserID)
+    .eq("isArchived", false)
+    .order("created_at", { ascending: false });
+
+  if (searchQuery.trim()) {
+    query = query.or(
+      `title.ilike.%${searchQuery}%,content.ilike.%${searchQuery}%,tags.ilike.%${searchQuery}%`
+    );
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error("Fetch error:", error);
+  }
+
+  return data;
+};
 export const fetchAllArchivedNotes = async (currentUserID) => {
   const { data, error } = await supabase
     .from("notes")

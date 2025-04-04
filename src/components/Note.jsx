@@ -19,9 +19,9 @@ const Note = ({ note, isLastNote }) => {
     >
       <p className="note__title">{note.title}</p>
       <div className="note__tags">
-        {note.tags?.map((tag, index) => (
+        {note.tags?.split(",")?.map((tag, index) => (
           <span key={index} className="note__tag">
-            {tag}
+            {tag.trim()}
           </span>
         ))}
       </div>
