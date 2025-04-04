@@ -438,7 +438,7 @@
   --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
     var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-  font-size: 1rem;
+  /* font-size: 1rem; */
   line-height: 1.5rem;
   padding: 0.75rem 0;
   padding-left: 2.5rem;
@@ -453,12 +453,6 @@
   font-weight: 400;
   line-height: 120%;
   letter-spacing: -0.2px;
-}
-@media (min-width: 768px) {
-  .search_input_div input {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-  }
 }
 @media (min-width: 1024px) {
   .search_input_div input {
