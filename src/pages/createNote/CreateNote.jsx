@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { fetchAllNotes, searchNotes, addNote } from "../../db/queries";
 import NotesBar from "../../components/NotesBar";
+import toast, { Toaster } from "react-hot-toast";
 import "./createNote.css";
 
 const CreateNote = ({ user }) => {
+  const notify = () => toast.success("Note created successfully!");
+
   const [searchParams, setSearchParams] = useSearchParams();
   const [formData, setFormData] = useState({
     title: "",
@@ -60,11 +63,13 @@ const CreateNote = ({ user }) => {
     if (newNote) {
       setNotes([newNote, ...notes]);
       setFormData({ title: "", tags: "", content: "" });
+      notify();
     }
   };
 
   return (
     <div className="create_note_container">
+      <Toaster position="bottom-right" reverseOrder={false} />
       <NotesBar notes={notes} />
       <div className="create_note_row">
         <form className="create_note_form" onSubmit={handleSubmit}>
