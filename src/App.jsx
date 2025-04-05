@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
 
@@ -19,6 +19,7 @@ import MobileHeader from "./components/MobileHeader";
 import SideBar from "./components/SideBar";
 import HeaderBar from "./components/HeaderBar";
 import { getAllTags } from "./db/queries";
+import Loading from "./components/Loading";
 
 // Layout component for pages with Sidebar
 function LayoutWithSidebar({ children, tags }) {
@@ -31,7 +32,7 @@ function LayoutWithSidebar({ children, tags }) {
 }
 
 function App() {
-  const { user } = useUser();
+  const { user, isLoaded } = useUser(); // Added isLoaded to check if the user state is loaded
   const [tags, setTags] = useState([]);
 
   useEffect(() => {
@@ -44,6 +45,11 @@ function App() {
     fetchTags();
   }, [user]);
 
+  if (!isLoaded) {
+    // If the user state is still loading, don't redirect and return a loading state
+    return <Loading />;
+  }
+
   return (
     <>
       <SignedIn>
@@ -54,82 +60,102 @@ function App() {
         <Route
           path="/"
           element={
-            <SignedIn>
+            user ? (
               <LayoutWithSidebar tags={tags}>
                 <HeaderBar />
                 <Home user={user} />
               </LayoutWithSidebar>
-            </SignedIn>
+            ) : (
+              <Navigate to="/sign-in" />
+            )
           }
         />
         <Route
           path="/archives"
           element={
-            <SignedIn>
+            user ? (
               <LayoutWithSidebar tags={tags}>
                 <HeaderBar />
                 <ArchivedNotes user={user} />
               </LayoutWithSidebar>
-            </SignedIn>
+            ) : (
+              <Navigate to="/sign-in" />
+            )
           }
         />
         <Route
           path="/note/create"
           element={
-            <SignedIn>
+            user ? (
               <LayoutWithSidebar tags={tags}>
                 <HeaderBar />
                 <CreateNote user={user} />
               </LayoutWithSidebar>
-            </SignedIn>
+            ) : (
+              <Navigate to="/sign-in" />
+            )
           }
         />
         <Route
           path="/settings"
           element={
-            <SignedIn>
+            user ? (
               <LayoutWithSidebar tags={tags}>
                 <HeaderBar />
                 <Settings user={user} />
               </LayoutWithSidebar>
-            </SignedIn>
+            ) : (
+              <Navigate to="/sign-in" />
+            )
           }
         />
         <Route
           path="/settings/color-theme"
           element={
-            <SignedIn>
+            user ? (
               <LayoutWithSidebar tags={tags}>
                 <HeaderBar />
                 <ColorTheme user={user} />
               </LayoutWithSidebar>
-            </SignedIn>
+            ) : (
+              <Navigate to="/sign-in" />
+            )
           }
         />
         <Route
           path="/settings/font-theme"
           element={
-            <SignedIn>
+            user ? (
               <LayoutWithSidebar tags={tags}>
                 <HeaderBar />
                 <FontTheme user={user} />
               </LayoutWithSidebar>
-            </SignedIn>
+            ) : (
+              <Navigate to="/sign-in" />
+            )
           }
         />
         <Route
           path="/note/:id"
           element={
-            <SignedIn>
+            user ? (
               <LayoutWithSidebar tags={tags}>
                 <HeaderBar />
                 <NoteProfile user={user} />
               </LayoutWithSidebar>
-            </SignedIn>
+            ) : (
+              <Navigate to="/sign-in" />
+            )
           }
         />
-        <Route path="/tags" element={<Tags user={user} />} />
-        <Route path="/search" element={<Search user={user} />} />
+        <Route
+          path="/tags"
+          element={user ? <Tags user={user} /> : <Navigate to="/sign-in" />}
+        />
+        <Route
+          path="/search"
+          element={user ? <Search user={user} /> : <Navigate to="/sign-in" />}
+        />
         <Route path="/sign-in/*" element={<SignIn />} />
         <Route path="/sign-up/*" element={<SignUp />} />
       </Routes>
