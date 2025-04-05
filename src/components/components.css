@@ -19,8 +19,11 @@
 .note {
   display: block;
   padding: 0.5rem;
+  border-radius: calc(var(--radius) - 2px);
 }
-
+.selected_note {
+  background: var(--neutral-100);
+}
 .note--with-border {
   border-bottom: 1px solid var(--neutral-200);
 }

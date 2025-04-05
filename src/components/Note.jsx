@@ -1,7 +1,10 @@
 import React from "react";
 import "./components.css";
+import { Link, useParams } from "react-router-dom";
 
 const Note = ({ note, isLastNote }) => {
+  const { id } = useParams();
+
   const formatDate = (isoDate) => {
     const date = new Date(isoDate);
     return date.toLocaleDateString("en-GB", {
@@ -13,9 +16,10 @@ const Note = ({ note, isLastNote }) => {
   };
 
   return (
-    <a
-      href={`/notes/${note.id}`}
-      className={`note ${!isLastNote ? "note--with-border" : ""}`}
+    <Link
+      to={`/note/${note.id}`}
+      className={`note ${!isLastNote ? "note--with-border" : ""} 
+      ${id === note.id ? "selected_note" : ""}`}
     >
       <p className="note__title">{note.title}</p>
       <div className="note__tags">
@@ -27,7 +31,7 @@ const Note = ({ note, isLastNote }) => {
       </div>
 
       <p className="note__date">{formatDate(note.created_at)}</p>
-    </a>
+    </Link>
   );
 };
 
