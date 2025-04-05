@@ -61,6 +61,22 @@ export const addNote = async (note, user) => {
   }
 };
 
+export const fetchNoteById = async (noteId, currentUserID) => {
+  const { data, error } = await supabase
+    .from("notes")
+    .select("*")
+    .eq("user_id", currentUserID)
+    .eq("id", noteId)
+    .single();
+
+  if (error) {
+    console.error("Error fetching note by ID:", error);
+    return null;
+  }
+
+  return data;
+};
+
 export const searchArchivedNotes = async (currentUserID, searchQuery = "") => {
   let query = supabase
     .from("notes")
