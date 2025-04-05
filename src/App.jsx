@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
 
@@ -8,6 +8,8 @@ import Home from "./pages/home/Home";
 import Tags from "./pages/tags/Tags";
 import ArchivedNotes from "./pages/archived_notes/ArchivedNotes";
 import Search from "./pages/search/Search";
+import CreateNote from "./pages/createNote/CreateNote";
+import NoteProfile from "./pages/noteProfile/NoteProfile";
 import Settings from "./pages/settings/Settings";
 import ColorTheme from "./pages/settings/ColorTheme";
 import FontTheme from "./pages/settings/FontTheme";
@@ -72,6 +74,17 @@ function App() {
           }
         />
         <Route
+          path="/note/create"
+          element={
+            <SignedIn>
+              <LayoutWithSidebar tags={tags}>
+                <HeaderBar />
+                <CreateNote user={user} />
+              </LayoutWithSidebar>
+            </SignedIn>
+          }
+        />
+        <Route
           path="/settings"
           element={
             <SignedIn>
@@ -100,6 +113,17 @@ function App() {
               <LayoutWithSidebar tags={tags}>
                 <HeaderBar />
                 <FontTheme user={user} />
+              </LayoutWithSidebar>
+            </SignedIn>
+          }
+        />
+        <Route
+          path="/note/:id"
+          element={
+            <SignedIn>
+              <LayoutWithSidebar tags={tags}>
+                <HeaderBar />
+                <NoteProfile user={user} />
               </LayoutWithSidebar>
             </SignedIn>
           }
