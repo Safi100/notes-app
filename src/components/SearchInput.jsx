@@ -1,10 +1,11 @@
-import { useContext, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useContext } from "react";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { NotesContext } from "../context/NotesContext";
-import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
+import { useUser } from "@clerk/clerk-react";
 
 const SearchInput = () => {
   const { user } = useUser();
+  const location = useLocation();
   const notesContext = useContext(NotesContext);
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
@@ -12,7 +13,12 @@ const SearchInput = () => {
   const handleInputChange = async (e) => {
     const newQuery = e.target.value;
     setSearchParams({ q: newQuery });
-    await notesContext.search_Notes(user.id, newQuery);
+
+    if (location.pathname === "/archives") {
+      await notesContext.search_Archived_Notes(user.id, newQuery);
+    } else {
+      await notesContext.search_Notes(user.id, newQuery);
+    }
   };
 
   return (
