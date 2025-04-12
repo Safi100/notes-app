@@ -13,6 +13,7 @@ export const fetchAllNotes = async (currentUserID) => {
   }
   return data;
 };
+
 export const searchNotes = async (currentUserID, searchQuery = "") => {
   let query = supabase
     .from("notes")
@@ -36,12 +37,12 @@ export const searchNotes = async (currentUserID, searchQuery = "") => {
   return data;
 };
 
-export const addNote = async (note, user) => {
+export const addNote = async (note, currentUserID) => {
   const { data, error } = await supabase
     .from("notes")
     .insert([
       {
-        user_id: user.id,
+        user_id: currentUserID,
         title: note.title,
         content: note.content,
         tags: note.tags,
@@ -51,8 +52,6 @@ export const addNote = async (note, user) => {
       },
     ])
     .select();
-
-  console.log("Insert result:", { data, error });
 
   if (error) {
     console.error(error);
@@ -133,4 +132,76 @@ export const getAllTags = async (currentUserID) => {
   const uniqueTags = [...new Set(allTags)];
 
   return uniqueTags;
+};
+
+export const updateNote = async (noteId, updatedNote, currentUserID) => {
+  const { data, error } = await supabase
+    .from("notes")
+    .update({
+      title: updatedNote.title,
+      tags: updatedNote.tags,
+      content: updatedNote.content,
+      updatedat: new Date().toISOString(),
+    })
+    .eq("id", noteId)
+    .eq("user_id", currentUserID)
+    .select();
+
+  if (error) {
+    console.error("Error updating note:", error.message);
+  }
+
+  return data?.[0];
+};
+
+export const deleteNote = async (noteId, currentUserID) => {
+  console.log(">>> deleteNote called with:", noteId, currentUserID);
+
+  const { data, error } = await supabase
+    .from("notes")
+    .delete()
+    .eq("id", noteId)
+    .eq("user_id", currentUserID)
+    .select();
+
+  if (error) {
+    console.error("Error deleting note:", error.message);
+  } else {
+    window.location.href = "/";
+  }
+};
+
+export const archiveNote = async (noteId, currentUserID) => {
+  const { data, error } = await supabase
+    .from("notes")
+    .update({
+      isArchived: true,
+      updatedat: new Date().toISOString(),
+    })
+    .eq("id", noteId)
+    .eq("user_id", currentUserID)
+    .select();
+
+  if (error) {
+    console.error("Error archiving note:", error.message);
+  }
+
+  return data?.[0];
+};
+export const unarchiveNote = async (noteId, currentUserID) => {
+  const { data, error } = await supabase
+    .from("notes")
+    .update({
+      isArchived: false,
+      updatedat: new Date().toISOString(),
+    })
+    .eq("id", noteId)
+    .eq("user_id", currentUserID)
+    .select();
+
+  if (error) {
+    console.error("Error archiving note:", error.message);
+  }
+
+  return data?.[0];
 };
