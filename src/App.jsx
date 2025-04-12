@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
+import { useUser, SignedIn } from "@clerk/clerk-react";
 
 import SignIn from "./pages/auth/Signin";
 import SignUp from "./pages/auth/Signup";
@@ -18,8 +18,9 @@ import MobileNav from "./components/MobileNav";
 import MobileHeader from "./components/MobileHeader";
 import SideBar from "./components/SideBar";
 import HeaderBar from "./components/HeaderBar";
-import { getAllTags } from "./db/queries";
 import Loading from "./components/Loading";
+
+import { NotesContext } from "./context/NotesContext";
 
 // Layout component for pages with Sidebar
 function LayoutWithSidebar({ children, tags }) {
@@ -32,14 +33,14 @@ function LayoutWithSidebar({ children, tags }) {
 }
 
 function App() {
+  const noteContext = useContext(NotesContext);
+
   const { user, isLoaded } = useUser(); // Added isLoaded to check if the user state is loaded
-  const [tags, setTags] = useState([]);
 
   useEffect(() => {
-    const fetchTags = async () => {
+    const fetchTags = () => {
       if (user) {
-        const tags = await getAllTags(user.id);
-        setTags(tags);
+        noteContext.fetchAllTags(user.id);
       }
     };
     fetchTags();
@@ -61,7 +62,7 @@ function App() {
           path="/"
           element={
             user ? (
-              <LayoutWithSidebar tags={tags}>
+              <LayoutWithSidebar tags={noteContext.tags}>
                 <HeaderBar />
                 <Home user={user} />
               </LayoutWithSidebar>
@@ -74,7 +75,7 @@ function App() {
           path="/archives"
           element={
             user ? (
-              <LayoutWithSidebar tags={tags}>
+              <LayoutWithSidebar tags={noteContext.tags}>
                 <HeaderBar />
                 <ArchivedNotes user={user} />
               </LayoutWithSidebar>
@@ -87,7 +88,7 @@ function App() {
           path="/note/create"
           element={
             user ? (
-              <LayoutWithSidebar tags={tags}>
+              <LayoutWithSidebar tags={noteContext.tags}>
                 <HeaderBar />
                 <CreateNote user={user} />
               </LayoutWithSidebar>
@@ -100,7 +101,7 @@ function App() {
           path="/settings"
           element={
             user ? (
-              <LayoutWithSidebar tags={tags}>
+              <LayoutWithSidebar tags={noteContext.tags}>
                 <HeaderBar />
                 <Settings user={user} />
               </LayoutWithSidebar>
@@ -113,7 +114,7 @@ function App() {
           path="/settings/color-theme"
           element={
             user ? (
-              <LayoutWithSidebar tags={tags}>
+              <LayoutWithSidebar tags={noteContext.tags}>
                 <HeaderBar />
                 <ColorTheme user={user} />
               </LayoutWithSidebar>
@@ -126,7 +127,7 @@ function App() {
           path="/settings/font-theme"
           element={
             user ? (
-              <LayoutWithSidebar tags={tags}>
+              <LayoutWithSidebar tags={noteContext.tags}>
                 <HeaderBar />
                 <FontTheme user={user} />
               </LayoutWithSidebar>
@@ -139,7 +140,7 @@ function App() {
           path="/note/:id"
           element={
             user ? (
-              <LayoutWithSidebar tags={tags}>
+              <LayoutWithSidebar tags={noteContext.tags}>
                 <HeaderBar />
                 <NoteProfile user={user} />
               </LayoutWithSidebar>
