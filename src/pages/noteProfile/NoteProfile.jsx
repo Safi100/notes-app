@@ -5,16 +5,22 @@ import { NotesContext } from "../../context/NotesContext";
 import NotesBar from "../../components/NotesBar";
 import DeleteAlert from "../../components/DeleteAlert";
 import "./noteProfile.css";
+import ArchiveAlert from "../../components/ArchiveAlert";
+import UnArchiveAlert from "../../components/UnArchiveAlert";
 
 const NoteProfile = ({ user }) => {
   const notesContext = useContext(NotesContext);
 
   const notify = () => toast.success("Note updated successfully!");
+  const notify_archived = () => toast.success("Note archived successfully!");
+  const notify_unarchived = () =>
+    toast.success("Note unarchived successfully!");
 
   const { id } = useParams();
   const [note, setNote] = useState({});
   const [openDelete, setOpenDelete] = useState(false);
   const [openArchive, setOpenArchive] = useState(false);
+  const [openUnArchive, setOpenUnArchive] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -80,6 +86,24 @@ const NoteProfile = ({ user }) => {
           noteID={note.id}
           setOpenDelete={setOpenDelete}
           userID={user.id}
+        />
+      )}
+      {openArchive && (
+        <ArchiveAlert
+          noteID={note.id}
+          setOpenArchive={setOpenArchive}
+          userID={user.id}
+          setNote={setNote}
+          notify={notify_archived}
+        />
+      )}
+      {openUnArchive && (
+        <UnArchiveAlert
+          noteID={note.id}
+          setOpenUnArchive={setOpenUnArchive}
+          userID={user.id}
+          setNote={setNote}
+          notify={notify_unarchived}
         />
       )}
       <NotesBar notes={notesContext.notes} />
@@ -188,33 +212,64 @@ const NoteProfile = ({ user }) => {
           </div>
         </form>
         <div className="control_note">
-          <button>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke="#0E121B"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.5"
-                className="dark:stroke-neutral-200"
-                d="M21 7.782v8.435C21 19.165 18.919 21 15.974 21H8.026C5.081 21 3 19.165 3 16.216V7.782C3 4.834 5.081 3 8.026 3h7.948C18.919 3 21 4.843 21 7.782Z"
-              ></path>
-              <path
-                stroke="#0E121B"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.5"
-                className="dark:stroke-neutral-200"
-                d="m15 14-3.002 3L9 14M11.998 17v-7M20.934 7H3.059"
-              ></path>
-            </svg>
-            <span className="">Archive Note</span>
-          </button>
+          {note.isArchived == false ? (
+            <button onClick={() => setOpenArchive(true)}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="#0E121B"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                  className="dark:stroke-neutral-200"
+                  d="M21 7.782v8.435C21 19.165 18.919 21 15.974 21H8.026C5.081 21 3 19.165 3 16.216V7.782C3 4.834 5.081 3 8.026 3h7.948C18.919 3 21 4.843 21 7.782Z"
+                ></path>
+                <path
+                  stroke="#0E121B"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                  className="dark:stroke-neutral-200"
+                  d="m15 14-3.002 3L9 14M11.998 17v-7M20.934 7H3.059"
+                ></path>
+              </svg>
+              <span>Archive Note</span>
+            </button>
+          ) : (
+            <button onClick={() => setOpenUnArchive(true)}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="none"
+                viewBox="0 0 24 24"
+                style={{ transform: "rotate(180deg)" }}
+              >
+                <path
+                  stroke="#0E121B"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                  className="dark:stroke-neutral-200"
+                  d="M21 7.782v8.435C21 19.165 18.919 21 15.974 21H8.026C5.081 21 3 19.165 3 16.216V7.782C3 4.834 5.081 3 8.026 3h7.948C18.919 3 21 4.843 21 7.782Z"
+                ></path>
+                <path
+                  stroke="#0E121B"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                  className="dark:stroke-neutral-200"
+                  d="m15 14-3.002 3L9 14M11.998 17v-7M20.934 7H3.059"
+                ></path>
+              </svg>
+              <span>Unarchive Note</span>
+            </button>
+          )}
           <button onClick={() => setOpenDelete(true)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
