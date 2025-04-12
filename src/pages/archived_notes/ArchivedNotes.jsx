@@ -1,7 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import { NotesContext } from "../../context/NotesContext";
-import { fetchAllArchivedNotes, searchArchivedNotes } from "../../db/queries";
 import NotesBar from "../../components/NotesBar";
 
 const ArchivedNotes = ({ user }) => {

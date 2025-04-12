@@ -1,7 +1,6 @@
 import { useEffect, useContext } from "react";
 import { NotesContext } from "../../context/NotesContext";
 import { useNavigate } from "react-router-dom";
-
 import "./tags.css";
 
 const Tags = ({ user }) => {
