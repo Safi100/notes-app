@@ -1,27 +1,23 @@
-import React, { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { searchNotes } from "../../db/queries";
 import Note from "../../components/Note";
 import SearchInput from "../../components/SearchInput";
+import { NotesContext } from "../../context/NotesContext";
 import "./search.css";
 
 const Search = ({ user }) => {
+  const notesContext = useContext(NotesContext);
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [notes, setNotes] = useState([]);
-
-  const query = searchParams.get("q") || "";
 
   useEffect(() => {
     if (!user) return;
 
     const fetchNotes = async () => {
-      const results = await searchNotes(user.id, query);
-      setNotes(results);
+      await notesContext.fetch_All_Notes(user.id);
     };
 
     fetchNotes();
-  }, [query, user]);
+  }, [user]);
 
   useEffect(() => {
     const handleCheck = () => {
@@ -48,11 +44,11 @@ const Search = ({ user }) => {
         <SearchInput />
       </div>
       <div className="notes">
-        {notes?.map((note, index) => (
+        {notesContext.notes?.map((note, index) => (
           <Note
             key={note.id}
             note={note}
-            isLastNote={index === notes.length - 1}
+            isLastNote={index === notesContext.notes.length - 1}
           />
         ))}
       </div>
