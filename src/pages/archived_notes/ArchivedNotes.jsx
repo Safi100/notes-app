@@ -1,35 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { NotesContext } from "../../context/NotesContext";
 import { fetchAllArchivedNotes, searchArchivedNotes } from "../../db/queries";
 import NotesBar from "../../components/NotesBar";
 
 const ArchivedNotes = ({ user }) => {
-  const [archivedNotes, setArchivedNotes] = useState([]);
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const query = searchParams.get("q") || "";
-
-  useEffect(() => {
-    if (!user) return;
-
-    const fetchArchivedNotes = async () => {
-      const results = await searchArchivedNotes(user.id, query);
-      setArchivedNotes(results);
-    };
-
-    fetchArchivedNotes();
-  }, [query, user]);
+  const notesContext = useContext(NotesContext);
 
   useEffect(() => {
     const getArchivedNotes = async () => {
-      const notes = await fetchAllArchivedNotes(user.id);
-      setArchivedNotes(notes);
-      console.log(notes);
+      await notesContext.fetch_All_Archived_Notes(user.id);
     };
-
     getArchivedNotes();
   }, [user]);
-  return <NotesBar notes={archivedNotes} />;
+
+  return <NotesBar notes={notesContext.notes} />;
 };
 
 export default ArchivedNotes;
