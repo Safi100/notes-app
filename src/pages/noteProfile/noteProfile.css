@@ -1,0 +1,197 @@
+.update_note_container {
+  display: flex;
+  height: 100%;
+}
+.update_note_container .notes_bar {
+  display: none;
+}
+.update_note_row {
+  display: flex;
+  flex: 1 1 0%;
+}
+.update_note_form {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  flex: 1 1 0%;
+}
+.update_note_container .note_title_tag {
+  padding: 1.25rem 1.5rem;
+}
+.update_note_container .note_title_tag .title {
+  background: transparent;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid transparent;
+  width: 100%;
+  height: 2.25rem;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 120%;
+  letter-spacing: -0.5px;
+  border-radius: calc(var(--radius) - 2px);
+}
+.update_note_container .note_title_tag p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 115px;
+}
+.update_note_container .note_title_tag .tags {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 1rem;
+}
+.update_note_container .note_title_tag .tags > div {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.update_note_container .note_title_tag .tags_input {
+  color: var(--neutral-800);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: -0.2px;
+  padding: 0.25rem 0.75rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: calc(var(--radius) - 2px);
+  width: 100%;
+  height: 2.25rem;
+}
+.update_note_container .note_title_tag .tags_input:focus {
+  outline: 0;
+  border-color: hsl(var(--ring));
+}
+.update_note_container .note_title_tag .tags .last_edit {
+  color: var(--neutral-950);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: -0.2px;
+}
+.update_note_container .note_title_tag p span {
+  color: var(--neutral-700);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: -0.2px;
+}
+.update_note_container .note_title_tag .title:focus {
+  outline: 0;
+  border-color: hsl(var(--ring));
+}
+.update_note_form .note_content {
+  padding: 1rem 1.5rem;
+  align-self: stretch;
+  color: var(--neutral-950);
+  height: 100%;
+}
+.update_note_form .note_content textarea {
+  color: var(--neutral-800);
+  font-size: 1rem;
+  line-height: 1.5rem;
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: calc(var(--radius) - 2px);
+  resize: none;
+  width: 100%;
+  min-height: 350px;
+  height: 100%;
+}
+.update_note_form .note_content textarea:focus {
+  outline: 0;
+  border-color: hsl(var(--ring));
+}
+.update_note_form .button_div {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--neutral-200);
+  display: flex;
+  gap: 1rem;
+}
+.update_note_form .button_div .btn:hover {
+  opacity: 0.8;
+}
+.update_note_form .button_div .btn {
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.15s;
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color),
+    0 1px 2px -1px var(--tw-shadow-color);
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding: 0.5rem 1rem;
+  border-radius: calc(var(--radius) - 2px);
+  cursor: pointer;
+  border: 0;
+}
+.update_note_form .button_div .update_btn {
+  color: var(--neutral-0);
+  background: var(--blue-500);
+}
+.update_note_form .button_div .cancel_btn {
+  color: var(--neutral-600);
+  background: var(--neutral-100);
+}
+
+.update_note_container .control_note {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  padding: 1.25rem 1rem;
+  width: 258px;
+}
+.update_note_container .control_note button:hover {
+  color: hsl(var(--accent-foreground));
+  background-color: hsl(var(--accent));
+}
+.update_note_container .control_note button {
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.15s;
+  --tw-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid hsl(var(--input));
+  border-radius: calc(var(--radius) - 2px);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  width: 100%;
+  height: 2.25rem;
+  cursor: pointer;
+}
+@media (min-width: 1024px) {
+  .update_note_container .control_note {
+    display: flex;
+  }
+  .update_note_container .notes_bar {
+    display: unset;
+  }
+  .update_note_container .update_note_form {
+    border-right: 1px solid var(--neutral-200);
+  }
+  .update_note_container .note_title_tag {
+    border-bottom: 1px solid var(--neutral-200);
+  }
+}
+@media (min-width: 768px) {
+  .update_note_form .note_content textarea {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+}
