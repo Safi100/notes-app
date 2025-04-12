@@ -1,21 +1,43 @@
-import { useState, useEffect } from "react";
-import { getAllTags } from "../../db/queries";
+import { useEffect, useContext } from "react";
+import { NotesContext } from "../../context/NotesContext";
+import { useNavigate } from "react-router-dom";
+
 import "./tags.css";
 
 const Tags = ({ user }) => {
-  const [tags, setTags] = useState([]);
+  const notesContext = useContext(NotesContext);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchTags = async () => {
-      const userTags = await getAllTags(user.id);
-      setTags(userTags);
+      await notesContext.fetchAllTags(user.id);
     };
     fetchTags();
   }, [user]);
+
+  useEffect(() => {
+    const handleCheck = () => {
+      if (window.innerWidth >= 1024) {
+        navigate("/");
+      }
+    };
+
+    handleCheck(); // Run on mount
+
+    window.addEventListener("scroll", handleCheck);
+    window.addEventListener("resize", handleCheck);
+
+    return () => {
+      window.removeEventListener("scroll", handleCheck);
+      window.removeEventListener("resize", handleCheck);
+    };
+  }, [navigate]);
+
   return (
     <div className="tags_div">
       <p>Tags</p>
       <ul>
-        {tags.map((tag, index) => (
+        {notesContext.tags?.map((tag, index) => (
           <li key={index}>
             <a href={`/notes?tag=${tag}`}>
               <svg
