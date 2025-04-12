@@ -563,7 +563,13 @@
 .alert .buttons_div .delete_btn,
 .alert .buttons_div .archive_btn {
   color: hsl(var(--primary-foreground));
+}
+.alert .buttons_div .delete_btn {
   background: var(--red-500);
+}
+.alert .buttons_div .archive_btn {
+  color: hsl(var(--primary-foreground));
+  background: var(--blue-500);
 }
 .alert .buttons_div .delete_btn:hover,
 .alert .buttons_div .archive_btn:hover {
